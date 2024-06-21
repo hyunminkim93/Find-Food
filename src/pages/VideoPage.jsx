@@ -5,9 +5,7 @@ import { Link, useParams } from 'react-router-dom';
 import Loading from '../components/section/Loading';
 import ReactPlayer from 'react-player';
 
-import { CiChat1 } from "react-icons/ci";
-import { CiStar } from "react-icons/ci";
-import { CiRead } from "react-icons/ci";
+import { CiChat1, CiStar, CiRead } from "react-icons/ci";
 
 const VideoPage = () => {
     const { videoID } = useParams();
@@ -17,7 +15,6 @@ const VideoPage = () => {
 
     useEffect(() => {
         const fetchVideoDetails = async () => {
-            setLoading(true);
             try {
                 const response = await fetch(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${videoID}&key=${process.env.REACT_APP_YOUTUBE_API_KEY}`)
                 const data = await response.json();
@@ -25,6 +22,7 @@ const VideoPage = () => {
                 // console.log(data);
             } catch (error) {
                 console.log(error);
+            } finally {
                 setLoading(false);
             }
         }
@@ -34,13 +32,14 @@ const VideoPage = () => {
                 const response = await fetch(`https://youtube.googleapis.com/youtube/v3/commentThreads?part=snippet&videoId=${videoID}&key=${process.env.REACT_APP_YOUTUBE_API_KEY}`);
                 const data = await response.json();
                 setComments(data.items);
-                setLoading(false);
                 console.log(data);
             } catch (error) {
                 console.log(error);
+            } finally {
                 setLoading(false);
             }
         };
+
         fetchVideoDetails();
         fetchComments();
     }, [videoID])
@@ -62,12 +61,12 @@ const VideoPage = () => {
                                         playing={true}
                                         url={`https://www.youtube.com/watch?v=${videoID}`}
                                         width='100%'
-                                        style={{ poasition: 'absolute', top: 0, left: 0 }}
+                                        style={{ position: 'absolute', top: 0, left: 0 }}
                                     />
                                 </div>
                                 <div className='right'>
                                     <h3>Comments</h3>
-                                    {comments.length > 0 ? (
+                                    {Array.isArray(comments) && comments.length > 0 ? (
                                         <ul>
                                             {comments.map(comment => (
                                                 <li key={comment.id}>
@@ -104,4 +103,4 @@ const VideoPage = () => {
     )
 }
 
-export default VideoPage
+export default VideoPage;
