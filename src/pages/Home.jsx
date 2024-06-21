@@ -10,12 +10,22 @@ const Home = () => {
     useEffect(() => {
         const fetchVideos = async (query, setState) => {
             try {
-                const response = await fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=${query}&type=video&maxResults=10&key=${process.env.REACT_APP_YOUTUBE_API_KEY}`);
+                const apiKey = process.env.REACT_APP_YOUTUBE_API_KEY;
+                if (!apiKey) {
+                    throw new Error("API 키가 설정되지 않았습니다.");
+                }
+                const response = await fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=${query}&type=video&maxResults=10&key=${apiKey}`);
+                if (!response.ok) {
+                    throw new Error("유튜브 API 요청 실패");
+                }
                 const data = await response.json();
                 const videoIds = data.items.map(item => item.id.videoId).filter(id => id).join(',');
 
                 if (videoIds) {
-                    const detailsResponse = await fetch(`https://youtube.googleapis.com/youtube/v3/videos?part=player&id=${videoIds}&key=${process.env.REACT_APP_YOUTUBE_API_KEY}`);
+                    const detailsResponse = await fetch(`https://youtube.googleapis.com/youtube/v3/videos?part=player&id=${videoIds}&key=${apiKey}`);
+                    if (!detailsResponse.ok) {
+                        throw new Error("유튜브 비디오 세부 정보 요청 실패");
+                    }
                     const detailsData = await detailsResponse.json();
 
                     const playableVideos = data.items.filter((item) => {

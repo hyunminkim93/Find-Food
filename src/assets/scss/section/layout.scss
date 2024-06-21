@@ -18,8 +18,9 @@
 
 #footer {
     text-align: center;
-    background-color: #111;
+    background-color: #FFF7E6; // 밝은 크림색 배경
     padding: 20px 20px 20px 260px;
+    color: var(--black);
 }
 
 @media (max-width: 960px) {
