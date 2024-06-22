@@ -6,22 +6,19 @@ import { IoLogoCodepen } from "react-icons/io";
 export const headerMenus = [
     {
         title: "한식 보러가기",
-        src: "/search/한식"
+        src: "/search/한국음식"
     }, {
         title: "중식 보러가기",
-        src: "/search/중식"
+        src: "/search/중국음식"
     }, {
         title: "양식 보러가기",
-        src: "/search/양식"
+        src: "/search/파스타,스테이크,피자"
     }, {
         title: "일식 보러가기",
-        src: "/search/일식"
-    }, {
-        title: "중식 보러가기",
-        src: "/search/중식"
-    }, {
+        src: "/search/일본음식"
+    },{
         title: "아시안 보러가기",
-        src: "/search/아시안"
+        src: "/search/아시안음식"
     }
 ]
 

@@ -1,6 +1,6 @@
 # 오늘은 뭐 먹지? 프로젝트 기획안
 
-![alt text](/src/assets/img/food.png)
+![alt text](/src/assets/img/find-food.png)
 
 ## 개요
 

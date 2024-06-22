@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import Main from '../components/section/Main'
+import React, { useEffect, useState } from 'react';
+import Main from '../components/section/Main';
 import { useParams } from 'react-router-dom';
 import { CiBadgeDollar, CiMedal, CiRead } from "react-icons/ci";
 import VideoView from '../components/video/VideoView';
 import Loading from '../components/section/Loading';
+import { headerMenus } from '../data/menu';
 
 const ChannelPage = () => {
     const { channelID } = useParams();
@@ -22,7 +23,10 @@ const ChannelPage = () => {
 
                 const video = await fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelID}&order=date&maxResults=48&key=${process.env.REACT_APP_YOUTUBE_API_KEY}`);
                 const videoData = await video.json();
-                setChannelVideo(videoData.items);
+                const filteredVideos = videoData.items.filter(video => 
+                    headerMenus.some(menu => video.snippet.title.includes(menu.title))
+                );
+                setChannelVideo(filteredVideos);
                 setNextPageToken(videoData.nextPageToken);
                 console.log(videoData);
             } catch (error) {
@@ -39,8 +43,10 @@ const ChannelPage = () => {
             try {
                 const nextVideo = await fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelID}&order=date&pageToken=${nextPageToken}&maxResults=48&key=${process.env.REACT_APP_YOUTUBE_API_KEY}`);
                 const nextVideoData = await nextVideo.json();
-                console.log(nextVideoData);
-                setChannelVideo(prevVideos => [...prevVideos, ...nextVideoData.items]);
+                const filteredNextVideos = nextVideoData.items.filter(video => 
+                    headerMenus.some(menu => video.snippet.title.includes(menu.title))
+                );
+                setChannelVideo(prevVideos => [...prevVideos, ...filteredNextVideos]);
                 setNextPageToken(nextVideoData.nextPageToken);
             } catch (error) {
                 console.log('비디오를 가져오지 못했습니다.', error);
