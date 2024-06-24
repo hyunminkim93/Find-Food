@@ -165,6 +165,8 @@ if (loading) {
 
 ### 4. 채널 페이지 구성
 
+![alt text](/src/assets/img/find-food2.png)
+
 **기능 설명**: 유튜브 채널의 세부 정보와 영상을 표시합니다.
 
 **구현 코드**
