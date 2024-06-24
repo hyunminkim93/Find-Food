@@ -48,8 +48,8 @@ const SearchPage = () => {
 
     return (
         <Main
-            title={`음악 검색 : ${searchID}`}
-            description={`음악 서치 페이지입니다. - 검색 키워드 : ${searchID}`}
+            title={`음식 검색 : ${searchID}`}
+            description={`음식 서치 페이지입니다. - 검색 키워드 : ${searchID}`}
         >
             {loading ? (
                 <Loading />
